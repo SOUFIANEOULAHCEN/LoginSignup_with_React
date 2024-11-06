@@ -1,41 +1,42 @@
-import React from "react";
 import { FcGoogle } from "react-icons/fc"; //google icon with color
 import { BiLogoFacebook } from "react-icons/bi"; //facebook  icon
 import { IoLogoApple } from "react-icons/io5"; //apple ios icon
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 function Signup() {
   return (
     <div className="w-[50%] h-auto py-10 px-8 border shadow-lg rounded-lg text-gray-900 ">
-        {/* block for sign up */}
+      {/* block for sign up */}
       <div className="flex flex-col gap-6">
         <h1 className="text-gray-950 font-bold text-5xl">Lets Sign you in</h1>
         <h5 className="text-gray-950 text-4xl font-semibold">
           Welcome Back ,<br />
           You have been missed
         </h5>
-        <div className="mt-6 flex flex-col gap-2">
-            {/* username */}
-          <input
-            type="text"
-            className="border px-6 py-2 rounded-lg text-xl "
-            placeholder="Email,phone & username"
-          />
-          <div className="flex flex-col gap-1">
-            {/* password */}
+        <div className="mt-6 ">
+          {/* username */}
+          <form action="" className="flex flex-col gap-2">
             <input
               type="text"
-              className="border px-6 py-2 rounded-lg"
-              placeholder="Password"
+              className="border px-6 py-2 rounded-lg text-xl "
+              placeholder="Email,phone & username"
             />
-            <div className="flex justify-end">
-              <a
-                href="#"
-                className="text-sm font-semibold text-gray-950 px-6 py-2 hover:text-blue-700 duration-300"
-              >
-                Forgot Password ?
-              </a>
+            <div className="flex flex-col gap-1">
+              {/* password */}
+              <input
+                type="text"
+                className="border px-6 py-2 rounded-lg"
+                placeholder="Password"
+              />
+              <div className="flex justify-end">
+                <a
+                  href="#"
+                  className="text-sm font-semibold text-gray-950 px-6 py-2 hover:text-blue-700 duration-300"
+                >
+                  Forgot Password ?
+                </a>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
         <button className="bg-gray-950 text-gray-100 py-3 rounded-lg hover:bg-gray-800 duration-300">
           Sign in
