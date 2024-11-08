@@ -2,7 +2,7 @@ import { FcGoogle } from "react-icons/fc"; //google icon with color
 import { BiLogoFacebook } from "react-icons/bi"; //facebook  icon
 import { IoLogoApple } from "react-icons/io5"; //apple ios icon
 import { Link } from "react-router-dom";
-function Signup() {
+function Login() {
   return (
     <div className="w-[50%] h-auto py-10 px-8 border shadow-lg rounded-lg text-gray-900 ">
       {/* block for sign up */}
@@ -73,4 +73,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;

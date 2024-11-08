@@ -1,12 +1,31 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-function Login(props) {
-  const [erreurs, SetErreurs] = useState([]);
+import ALert from "./ALert";
+function Signup(props) {
+  // gerer l'etat de l'affichage de l'alert
+  const [showAlert, SetshowAlert] = useState(false);
+  //
+  const [erreurs, setErreurs] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+  });
+  //gerer la validation de form
+  const [valid, setValid] = useState(false);
   const name = useRef();
   const phone = useRef();
   const email = useRef();
   const password = useRef();
+
+  useEffect(() => {
+    if (valid) {
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    }
+  }, [valid]);
 
   const HandleSubmit = (e) => {
     e.preventDefault();
@@ -14,46 +33,67 @@ function Login(props) {
   };
 
   const HandleUser = () => {
+    setErreurs({}); // reset des erreurs
+    let isValid = true;
+
     const nameValue = name.current.value.trim();
     const phoneValue = phone.current.value.trim();
     const emailValue = email.current.value.trim();
     const passwordValue = password.current.value.trim();
 
+    // regex
     const moroccanPhoneRegex = /^(?:\+212|0)([ \-]?\d){9}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    let tempErrors = [];
+    // validation des champs
+    const newErrors = {};
 
-    if (nameValue === "") tempErrors.push("Invalid Name");
-    if (!moroccanPhoneRegex.test(phoneValue))
-      tempErrors.push("Invalid Phone number");
-    if (!emailRegex.test(emailValue)) tempErrors.push("Invalid Email");
-    if (passwordValue === "") tempErrors.push("Invalid Password");
-
-    if (tempErrors.length > 0) {
-      SetErreurs(tempErrors);
-      return;
+    if (nameValue === "") {
+      newErrors.name = "Invalid Name";
+      isValid = false;
     }
 
-    const NewUser = {
-      name: nameValue,
-      phone: phoneValue,
-      email: emailValue,
-      password: passwordValue,
-    };
+    if (!moroccanPhoneRegex.test(phoneValue)) {
+      newErrors.phone = "Invalid Phone number";
+      isValid = false;
+    }
 
-    props.SetUsers((prev) => [...prev, NewUser]);
+    if (!emailRegex.test(emailValue)) {
+      newErrors.email = "Invalid Email";
+      isValid = false;
+    }
 
-    name.current.value = "";
-    phone.current.value = "";
-    email.current.value = "";
-    password.current.value = "";
+    if (passwordValue === "") {
+      newErrors.password = "Invalid Password";
+      isValid = false;
+    }
 
-    SetErreurs([]);
+    setErreurs(newErrors);
+
+    if (isValid) {
+      const NewUser = {
+        name: nameValue,
+        phone: phoneValue,
+        email: emailValue,
+        password: passwordValue,
+      };
+
+      // ajouter new user
+      props.setUsers((prev) => [...prev, NewUser]);
+
+      // Reset les champs
+      name.current.value = "";
+      phone.current.value = "";
+      email.current.value = "";
+      password.current.value = "";
+
+      setValid(true);
+    }
   };
 
   return (
     <div className="w-[50%] h-auto py-10 px-8 border shadow-lg rounded-lg text-gray-900 ">
+      {showAlert && <Alert message="Action was successful!" type="success" />}{" "}
       <div className="flex flex-col gap-4">
         <h1 className="text-gray-950 font-bold text-4xl">
           Let's Register Account
@@ -62,19 +102,17 @@ function Login(props) {
           Hello user, you have a greatful journey
         </h5>
         <div className="mt-6">
-          <form
-            action=""
-            onSubmit={HandleSubmit}
-            className="flex flex-col gap-2"
-          >
+          <form onSubmit={HandleSubmit} className="flex flex-col gap-2">
             <input
               ref={name}
               type="text"
               className="border px-6 py-2 rounded-lg text-xl "
               placeholder="Name"
             />
-            {erreurs.includes("Invalid Name") && (
-              <span className="text-red-600 font-semibold">Invalid Name</span>
+            {erreurs.name && (
+              <span className="px-5 text-sm mt-[-5px] text-red-600 font-semibold">
+                {erreurs.name}*
+              </span>
             )}
 
             <input
@@ -83,9 +121,9 @@ function Login(props) {
               className="border px-6 py-2 rounded-lg text-xl "
               placeholder="Phone"
             />
-            {erreurs.includes("Invalid Phone number") && (
-              <span className="text-red-600 font-semibold">
-                Invalid Phone number
+            {erreurs.phone && (
+              <span className="px-5 text-sm mt-[-5px] text-red-600 font-semibold">
+                {erreurs.phone}*
               </span>
             )}
 
@@ -95,8 +133,10 @@ function Login(props) {
               className="border px-6 py-2 rounded-lg text-xl "
               placeholder="Email"
             />
-            {erreurs.includes("Invalid Email") && (
-              <span className="text-red-600 font-semibold">Invalid Email</span>
+            {erreurs.email && (
+              <span className="px-5 text-sm mt-[-5px] text-red-600 font-semibold">
+                {erreurs.email}*
+              </span>
             )}
 
             <input
@@ -105,9 +145,9 @@ function Login(props) {
               className="border px-6 py-2 rounded-lg text-xl "
               placeholder="Password"
             />
-            {erreurs.includes("Invalid Password") && (
-              <span className="text-red-600 font-semibold">
-                Invalid Password
+            {erreurs.password && (
+              <span className="px-5 text-sm mt-[-5px] text-red-600 font-semibold">
+                {erreurs.password}*
               </span>
             )}
 
@@ -135,4 +175,4 @@ function Login(props) {
   );
 }
 
-export default Login;
+export default Signup;
