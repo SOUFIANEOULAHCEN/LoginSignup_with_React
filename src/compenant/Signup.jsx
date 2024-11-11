@@ -1,9 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import ALert from "./ALert";
 function Signup(props) {
   // gerer l'etat de l'affichage de l'alert
-  const [showAlert, SetshowAlert] = useState(false);
+  // const [showAlert, SetshowAlert] = useState(false);
   //
   const [erreurs, setErreurs] = useState({
     name: "",
@@ -12,20 +11,20 @@ function Signup(props) {
     password: "",
   });
   //gerer la validation de form
-  const [valid, setValid] = useState(false);
+  // const [valid, setValid] = useState(false);
   const name = useRef();
   const phone = useRef();
   const email = useRef();
   const password = useRef();
 
-  useEffect(() => {
-    if (valid) {
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
-    }
-  }, [valid]);
+  // useEffect(() => {
+  //   if (valid) {
+  //     SetshowAlert(true);
+  //     setTimeout(() => {
+  //       SetshowAlert(false);
+  //     }, 3000);
+  //   }
+  // }, [valid]);
 
   const HandleSubmit = (e) => {
     e.preventDefault();
@@ -79,21 +78,20 @@ function Signup(props) {
       };
 
       // ajouter new user
-      props.setUsers((prev) => [...prev, NewUser]);
-
+      props.SetUsers((prev) => [...prev, NewUser]);
       // Reset les champs
       name.current.value = "";
       phone.current.value = "";
       email.current.value = "";
       password.current.value = "";
 
-      setValid(true);
+      // setValid(true);
     }
   };
 
   return (
     <div className="w-[50%] h-auto py-10 px-8 border shadow-lg rounded-lg text-gray-900 ">
-      {showAlert && <Alert message="Action was successful!" type="success" />}{" "}
+      {/* {showAlert && (<Alert message="Action was successful!" type="success" />)}{" "} */}
       <div className="flex flex-col gap-4">
         <h1 className="text-gray-950 font-bold text-4xl">
           Let's Register Account

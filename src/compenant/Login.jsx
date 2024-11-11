@@ -1,8 +1,45 @@
 import { FcGoogle } from "react-icons/fc"; //google icon with color
 import { BiLogoFacebook } from "react-icons/bi"; //facebook  icon
 import { IoLogoApple } from "react-icons/io5"; //apple ios icon
-import { Link } from "react-router-dom";
-function Login() {
+import { Link, useNavigate } from "react-router-dom"; //react dom
+import { useEffect, useRef, useState } from "react"; //hooks
+function Login(props) {
+  const [Data_Recovred, SetData_recovered] = useState();
+  const navigate = useNavigate();
+  const Recover_data = () => {
+    SetData_recovered(props.Recovered_data());
+  };
+
+  const ContactRef = useRef();
+  const passwordRef = useRef();
+  const Submit_Login = (e) => {
+    e.preventDefault();
+    const ContactRef_Value = ContactRef.current.value;
+    const passwordRef_Value = passwordRef.current.value;
+
+    const Filtered_Data = Data_Recovred.filter((Data) => {
+      return (
+        (Data.name == ContactRef_Value.trim() ||
+          Data.phone == ContactRef_Value.trim() ||
+          Data.email == ContactRef_Value.trim()) &&
+        Data.password == passwordRef_Value.trim()
+      );
+    });
+    // Filtered_Data.length > 0 ? props.setValid(true) : props.setValid(false);
+    if (Filtered_Data.length > 0) {
+      props.setValid(true); // Set valid to true
+    } else {
+      props.setValid(false); // Set valid to false
+    }
+    
+    navigate("/Result"); // Navigate to the Result page
+
+    ContactRef.current.value = "";
+    passwordRef.current.value = "";
+  };
+  useEffect(() => {
+    Recover_data();
+  }, []);
   return (
     <div className="w-[50%] h-auto py-10 px-8 border shadow-lg rounded-lg text-gray-900 ">
       {/* block for sign up */}
@@ -14,8 +51,13 @@ function Login() {
         </h5>
         <div className="mt-6 ">
           {/* username */}
-          <form action="" className="flex flex-col gap-2">
+          <form
+            action=""
+            onSubmit={Submit_Login}
+            className="flex flex-col gap-2"
+          >
             <input
+              ref={ContactRef}
               type="text"
               className="border px-6 py-2 rounded-lg text-xl "
               placeholder="Email,phone & username"
@@ -23,7 +65,8 @@ function Login() {
             <div className="flex flex-col gap-1">
               {/* password */}
               <input
-                type="text"
+                ref={passwordRef}
+                type="password"
                 className="border px-6 py-2 rounded-lg"
                 placeholder="Password"
               />
@@ -36,17 +79,20 @@ function Login() {
                 </a>
               </div>
             </div>
+            <button
+              type="submit"
+              className="bg-gray-950 text-gray-100 text-center py-3 rounded-lg hover:bg-gray-800 duration-300"
+            >
+              Sign in
+            </button>
           </form>
         </div>
-        <button className="bg-gray-950 text-gray-100 py-3 rounded-lg hover:bg-gray-800 duration-300">
-          Sign in
-        </button>
       </div>
 
-      <div class="flex items-center my-4">
-        <div class="flex-grow border-t border-gray-300"></div>
-        <span class="mx-4 text-gray-500">or</span>
-        <div class="flex-grow border-t border-gray-300"></div>
+      <div className="flex items-center my-4">
+        <div className="flex-grow border-t border-gray-300"></div>
+        <span className="mx-4 text-gray-500">or</span>
+        <div className="flex-grow border-t border-gray-300"></div>
       </div>
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-center gap-6 *">
